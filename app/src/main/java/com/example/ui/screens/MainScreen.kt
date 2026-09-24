@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.defaultMinSize
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -82,6 +83,7 @@ fun MainScreen(viewModel: FinanceViewModel) {
     val monthDisplay = viewModel.getMonthYearDisplay(selectedCal)
 
     Scaffold(
+        contentWindowInsets = WindowInsets(0, 0, 0, 0),
         topBar = {
             AppTopBar(
                 title = if (currentScreen == Screen.Home) (if (userName.isNotBlank()) userName else "Meu Financeiro") else currentScreen.title,
@@ -250,20 +252,26 @@ fun AppBottomNavigation(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(64.dp)
-                        .padding(horizontal = 4.dp),
+                        .padding(horizontal = 2.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    // Metade esquerda: Início e Movimentações perfeitamente balanceados
-                    Row(
+                    // Item 1: Início
+                    Box(
                         modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically
+                        contentAlignment = Alignment.Center
                     ) {
                         BottomNavItem(
                             screen = Screen.Home,
                             isSelected = currentScreen == Screen.Home,
                             onClick = { onSelectScreen(Screen.Home) }
                         )
+                    }
+
+                    // Item 2: Movimentações
+                    Box(
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
                         BottomNavItem(
                             screen = Screen.Transactions,
                             isSelected = currentScreen == Screen.Transactions,
@@ -271,25 +279,38 @@ fun AppBottomNavigation(
                         )
                     }
 
-                    // Espaço central do FAB (garante simetria exata de 50% entre esquerda e direita)
-                    Spacer(modifier = Modifier.width(56.dp))
+                    // Espaço central reservado para o FAB flutuante (centralizado perfeitamente)
+                    Spacer(modifier = Modifier.width(48.dp))
 
-                    // Metade direita: Planejamento, Relatórios e Mais perfeitamente balanceados
-                    Row(
+                    // Item 3: Planejamento
+                    Box(
                         modifier = Modifier.weight(1f),
-                        horizontalArrangement = Arrangement.SpaceAround,
-                        verticalAlignment = Alignment.CenterVertically
+                        contentAlignment = Alignment.Center
                     ) {
                         BottomNavItem(
                             screen = Screen.Planning,
                             isSelected = currentScreen == Screen.Planning,
                             onClick = { onSelectScreen(Screen.Planning) }
                         )
+                    }
+
+                    // Item 4: Relatórios
+                    Box(
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
                         BottomNavItem(
                             screen = Screen.Reports,
                             isSelected = currentScreen == Screen.Reports,
                             onClick = { onSelectScreen(Screen.Reports) }
                         )
+                    }
+
+                    // Item 5: Mais
+                    Box(
+                        modifier = Modifier.weight(1f),
+                        contentAlignment = Alignment.Center
+                    ) {
                         BottomNavItem(
                             screen = Screen.More,
                             isSelected = currentScreen == Screen.More,
@@ -348,10 +369,11 @@ fun BottomNavItem(
 
     Column(
         modifier = modifier
+            .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
             .clickable { onClick() }
-            .defaultMinSize(minWidth = 48.dp, minHeight = 48.dp)
-            .padding(horizontal = 2.dp, vertical = 4.dp)
+            .defaultMinSize(minHeight = 48.dp)
+            .padding(horizontal = 1.dp, vertical = 4.dp)
             .testTag(screen.tag),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
@@ -360,13 +382,14 @@ fun BottomNavItem(
             imageVector = screen.icon,
             contentDescription = screen.title,
             tint = if (isSelected) activeColor else inactiveColor,
-            modifier = Modifier.size(22.dp)
+            modifier = Modifier.size(20.dp)
         )
         Spacer(modifier = Modifier.height(2.dp))
         Text(
             text = screen.title,
-            fontSize = 10.sp,
-            letterSpacing = (-0.2).sp,
+            fontSize = 9.sp,
+            letterSpacing = (-0.3).sp,
+            lineHeight = 11.sp,
             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
             color = if (isSelected) activeColor else inactiveColor,
             maxLines = 1,

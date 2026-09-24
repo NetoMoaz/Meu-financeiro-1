@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -167,6 +168,7 @@ fun AppTopBar(
                         listOf(HeaderDarkGreen, HeaderDarkGreenEnd)
                     )
                 )
+                .statusBarsPadding()
                 .padding(horizontal = 16.dp, vertical = 12.dp)
         ) {
             Column {
@@ -190,7 +192,7 @@ fun AppTopBar(
                         ) {
                             UserProfileAvatar(
                                 photoPath = userPhotoPath,
-                                initials = "MF",
+                                initials = userInitials,
                                 size = 46.dp,
                                 fontSize = 16.sp
                             )
@@ -251,7 +253,7 @@ fun AppTopBar(
                         ) {
                             UserProfileAvatar(
                                 photoPath = userPhotoPath,
-                                initials = "MF",
+                                initials = userInitials,
                                 size = 38.dp,
                                 fontSize = 14.sp
                             )

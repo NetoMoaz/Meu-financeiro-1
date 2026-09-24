@@ -70,6 +70,7 @@ fun SettingsScreen(
     val rawCategories by viewModel.categories.collectAsStateWithLifecycle()
     val userName by viewModel.userName.collectAsStateWithLifecycle()
     val userPhotoPath by viewModel.userPhotoPath.collectAsStateWithLifecycle()
+    val userInitials = remember(userName) { viewModel.getUserInitials(userName) }
 
     // Garantir que não haja duplicatas na listagem
     val categories = remember(rawCategories) {
@@ -114,7 +115,7 @@ fun SettingsScreen(
                     ) {
                         UserProfileAvatar(
                             photoPath = userPhotoPath,
-                            initials = "MF",
+                            initials = userInitials,
                             size = 52.dp,
                             fontSize = 18.sp,
                             borderColor = GreenDarkPrimary.copy(alpha = 0.5f),
